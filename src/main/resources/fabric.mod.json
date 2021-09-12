@@ -1,0 +1,46 @@
+{
+  "schemaVersion": 1,
+  "id": "pingnametags",
+  "version": "${version}",
+
+  "name": "Ping Nametags",
+  "description": "Adds colored ping values inside each player's nametag.",
+  "authors": [
+    "Paul Soporan"
+  ],
+  "contact": {
+    "homepage": "https://github.com/paul-soporan/ping-nametags#readme",
+    "sources": "https://github.com/paul-soporan/ping-nametags"
+  },
+
+  "license": "MIT",
+  "icon": "assets/pingnametags/icon.png",
+
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "dev.paulsoporan.pingnametags.PingNametagsClientMod"
+    ],
+    "modmenu": [
+      "dev.paulsoporan.pingnametags.config.PingNametagsModMenuIntegration"
+    ]
+  },
+
+  "mixins": [
+    "pingnametags.mixins.json"
+  ],
+
+  "depends": {
+    "cloth-config2": ">=5.0",
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.17.x",
+    "java": ">=16"
+  },
+  "recommends": {
+    "modmenu": ">=1.12.0"
+  },
+  "custom": {
+    "modmenu:clientsideOnly": true
+  }
+}

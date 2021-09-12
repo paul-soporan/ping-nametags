@@ -1,0 +1,9 @@
+{
+  "config.pingnametags.title": "Ping Nametags",
+
+  "config.pingnametags.pingTextPosition": "Ping Text Position",
+  "config.pingnametags.pingTextPosition.description": "The position of the ping text placed next to the name.",
+
+  "config.pingnametags.pingTextFormatString": "Ping Text Format String",
+  "config.pingnametags.pingTextFormatString.description": "The format string for ping text. Must include a %d, which will be replaced dynamically by the actual ping value."
+}

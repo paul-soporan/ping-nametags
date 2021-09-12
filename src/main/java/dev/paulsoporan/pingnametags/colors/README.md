@@ -1,0 +1,1 @@
+Utils copied from https://github.com/vladmarica/better-ping-display-fabric/tree/e2ea52babbb4ac3cefa8380df6e582ca5b796c70/src/main/java/com/vladmarica/betterpingdisplay/hud.
