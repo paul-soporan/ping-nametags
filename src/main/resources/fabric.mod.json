@@ -10,7 +10,8 @@
   ],
   "contact": {
     "homepage": "https://github.com/paul-soporan/ping-nametags#readme",
-    "sources": "https://github.com/paul-soporan/ping-nametags"
+    "sources": "https://github.com/paul-soporan/ping-nametags",
+    "issues": "https://github.com/paul-soporan/ping-nametags/issues"
   },
 
   "license": "MIT",
