@@ -35,39 +35,25 @@ public class PingNametagsConfig {
 
         PingNametagsConfig config = PingNametagsConfigManager.getConfig();
 
-        try {
-            builder.getOrCreateCategory(new LiteralText("general"))
-                    .addEntry(ConfigEntryBuilder.create()
-                            .startBooleanToggle(new TranslatableText(String.format("config.%s.enabled", PingNametagsClientMod.MOD_ID)), config.getEnabled())
-                            .setDefaultValue(DEFAULT_ENABLED)
-                            .setTooltip(new TranslatableText(String.format("config.%s.enabled.description", PingNametagsClientMod.MOD_ID)))
-                            .setSaveConsumer(b -> config.enabled = b)
-                            .build())
-                    .addEntry(ConfigEntryBuilder.create()
-                            .startKeyCodeField(new TranslatableText(String.format("config.%s.toggleEnabledKey", PingNametagsClientMod.MOD_ID)), (Key) FieldUtils.readField(PingNametagsClientMod.TOGGLE_ENABLED_KEYBINDING, "boundKey", true))
-                            .setDefaultValue(PingNametagsClientMod.TOGGLE_ENABLED_KEYBINDING.getDefaultKey())
-                            .setTooltip(new TranslatableText(String.format("config.%s.toggleEnabledKey.description", PingNametagsClientMod.MOD_ID)))
-                            .setSaveConsumer((code) -> {
-                                PingNametagsClientMod.TOGGLE_ENABLED_KEYBINDING.setBoundKey(code);
-                                KeyBinding.updateKeysByCode();
-                                MinecraftClient.getInstance().options.write();
-                            })
-                            .build())
-                    .addEntry(ConfigEntryBuilder.create()
-                            .startEnumSelector(new TranslatableText(String.format("config.%s.pingTextPosition", PingNametagsClientMod.MOD_ID)), PingTextPosition.class, config.getPingTextPosition())
-                            .setDefaultValue(DEFAULT_PING_TEXT_POSITION)
-                            .setTooltip(new TranslatableText(String.format("config.%s.pingTextPosition.description", PingNametagsClientMod.MOD_ID)))
-                            .setSaveConsumer(p -> config.pingTextPosition = p)
-                            .build())
-                    .addEntry(ConfigEntryBuilder.create()
-                            .startStrField(new TranslatableText(String.format("config.%s.pingTextFormatString", PingNametagsClientMod.MOD_ID)), config.getPingTextFormatString())
-                            .setDefaultValue(DEFAULT_PING_TEXT_FORMAT_STRING)
-                            .setTooltip(new TranslatableText(String.format("config.%s.pingTextFormatString.description", PingNametagsClientMod.MOD_ID)))
-                            .setSaveConsumer(s -> config.pingTextFormatString = s)
-                            .build());
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        }
+        builder.getOrCreateCategory(new LiteralText("general"))
+                .addEntry(ConfigEntryBuilder.create()
+                        .startBooleanToggle(new TranslatableText(String.format("config.%s.enabled", PingNametagsClientMod.MOD_ID)), config.getEnabled())
+                        .setDefaultValue(DEFAULT_ENABLED)
+                        .setTooltip(new TranslatableText(String.format("config.%s.enabled.description", PingNametagsClientMod.MOD_ID)))
+                        .setSaveConsumer(b -> config.enabled = b)
+                        .build())
+                .addEntry(ConfigEntryBuilder.create()
+                        .startEnumSelector(new TranslatableText(String.format("config.%s.pingTextPosition", PingNametagsClientMod.MOD_ID)), PingTextPosition.class, config.getPingTextPosition())
+                        .setDefaultValue(DEFAULT_PING_TEXT_POSITION)
+                        .setTooltip(new TranslatableText(String.format("config.%s.pingTextPosition.description", PingNametagsClientMod.MOD_ID)))
+                        .setSaveConsumer(p -> config.pingTextPosition = p)
+                        .build())
+                .addEntry(ConfigEntryBuilder.create()
+                        .startStrField(new TranslatableText(String.format("config.%s.pingTextFormatString", PingNametagsClientMod.MOD_ID)), config.getPingTextFormatString())
+                        .setDefaultValue(DEFAULT_PING_TEXT_FORMAT_STRING)
+                        .setTooltip(new TranslatableText(String.format("config.%s.pingTextFormatString.description", PingNametagsClientMod.MOD_ID)))
+                        .setSaveConsumer(s -> config.pingTextFormatString = s)
+                        .build());
 
         builder.setSavingRunnable(PingNametagsConfigManager::save);
 
