@@ -9,9 +9,14 @@ import net.minecraft.text.TranslatableText;
 import org.jetbrains.annotations.NotNull;
 
 public class PingNametagsConfig {
+    private static final boolean DEFAULT_ENABLED = true;
+
     private static final PingTextPosition DEFAULT_PING_TEXT_POSITION = PingTextPosition.Right;
 
     private static final String DEFAULT_PING_TEXT_FORMAT_STRING = "(%dms)";
+
+    @NotNull
+    private boolean enabled = DEFAULT_ENABLED;
 
     @NotNull
     private PingTextPosition pingTextPosition = DEFAULT_PING_TEXT_POSITION;
@@ -28,6 +33,12 @@ public class PingNametagsConfig {
 
         builder.getOrCreateCategory(new LiteralText("general"))
                 .addEntry(ConfigEntryBuilder.create()
+                        .startBooleanToggle(new TranslatableText(String.format("config.%s.enabled", PingNametagsClientMod.MOD_ID)), config.getEnabled())
+                        .setDefaultValue(DEFAULT_ENABLED)
+                        .setTooltip(new TranslatableText(String.format("config.%s.enabled.description", PingNametagsClientMod.MOD_ID)))
+                        .setSaveConsumer(b -> config.enabled = b)
+                        .build())
+                .addEntry(ConfigEntryBuilder.create()
                         .startEnumSelector(new TranslatableText(String.format("config.%s.pingTextPosition", PingNametagsClientMod.MOD_ID)), PingTextPosition.class, config.getPingTextPosition())
                         .setDefaultValue(DEFAULT_PING_TEXT_POSITION)
                         .setTooltip(new TranslatableText(String.format("config.%s.pingTextPosition.description", PingNametagsClientMod.MOD_ID)))
@@ -43,6 +54,10 @@ public class PingNametagsConfig {
         builder.setSavingRunnable(PingNametagsConfigManager::save);
 
         return builder.build();
+    }
+
+    public boolean getEnabled() {
+        return enabled;
     }
 
     public PingTextPosition getPingTextPosition() {

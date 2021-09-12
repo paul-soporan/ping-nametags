@@ -23,6 +23,11 @@ import java.util.UUID;
 public class PingNametagsRenderMixin {
     @ModifyArgs(method = "render", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/render/entity/EntityRenderer;renderLabelIfPresent(Lnet/minecraft/entity/Entity;Lnet/minecraft/text/Text;Lnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;I)V"))
     private void renderLabelIfPresent(Args args) {
+        PingNametagsConfig config = PingNametagsConfigManager.getConfig();
+        if (!config.getEnabled()) {
+            return;
+        }
+
         Entity entity = args.get(0);
         if (!(entity instanceof AbstractClientPlayerEntity)) {
             return;
@@ -41,8 +46,6 @@ public class PingNametagsRenderMixin {
         if (!optionalPlayerListEntry.isPresent()) {
             return;
         }
-
-        PingNametagsConfig config = PingNametagsConfigManager.getConfig();
 
         PlayerListEntry relevantPlayerListEntry = optionalPlayerListEntry.get();
         int latency = relevantPlayerListEntry.getLatency();
