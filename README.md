@@ -35,5 +35,6 @@ The configuration can be edited in-game if [Mod Menu](https://www.curseforge.com
 | Option                 | Type            | Default Value | Description                                                                                                        |
 |----------------------- |-----------------|---------------|--------------------------------------------------------------------------------------------------------------------|
 | `enabled`              | `boolean`       | `true`        | Whether ping nametags are enabled or not.                                                                          |
+| `toggleEnabledKey`     | `KeyBinding`    | `g`           | The key that toggles ping nametags.                                                                                |
 | `pingTextPosition`     | `Left \| Right` | `Right`       | The position of the ping text placed next to the name.                                                             |
 | `pingTextFormatString` | `String`        | `"(%dms)"`    | The format string for ping text. Must include a `%d`, which will be replaced dynamically by the actual ping value. |

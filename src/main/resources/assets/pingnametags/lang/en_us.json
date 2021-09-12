@@ -1,8 +1,12 @@
 {
   "config.pingnametags.title": "Ping Nametags",
+  "config.pingnametags.keyCategory": "Ping Nametags",
 
   "config.pingnametags.enabled": "Enabled",
   "config.pingnametags.enabled.description": "Whether ping nametags are enabled or not.",
+
+  "config.pingnametags.toggleEnabledKey": "Toggle Ping Nametags Key",
+  "config.pingnametags.toggleEnabledKey.description": "The key that toggles ping nametags.",
 
   "config.pingnametags.pingTextPosition": "Ping Text Position",
   "config.pingnametags.pingTextPosition.description": "The position of the ping text placed next to the name.",
