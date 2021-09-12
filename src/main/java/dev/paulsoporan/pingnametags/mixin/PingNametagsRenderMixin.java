@@ -1,5 +1,6 @@
 package dev.paulsoporan.pingnametags.mixin;
 
+import com.mojang.authlib.GameProfile;
 import dev.paulsoporan.pingnametags.colors.PingColors;
 import dev.paulsoporan.pingnametags.config.PingNametagsConfig;
 import dev.paulsoporan.pingnametags.config.PingNametagsConfigManager;
@@ -16,6 +17,7 @@ import org.spongepowered.asm.mixin.injection.invoke.arg.Args;
 import oshi.util.tuples.Pair;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -34,21 +36,45 @@ public class PingNametagsRenderMixin {
         }
 
         AbstractClientPlayerEntity abstractClientPlayerEntity = (AbstractClientPlayerEntity) entity;
-        UUID id = abstractClientPlayerEntity.getGameProfile().getId();
+        GameProfile gameProfile = abstractClientPlayerEntity.getGameProfile();
+        String playerName = gameProfile.getName();
+        UUID id = gameProfile.getId();
 
         MinecraftClient client = MinecraftClient.getInstance();
         Collection<PlayerListEntry> playerList = client.getNetworkHandler().getPlayerList();
 
-        Optional<PlayerListEntry> optionalPlayerListEntry = playerList.stream()
-                .filter(playerListEntry -> playerListEntry.getProfile().getId() == id)
+        Optional<PlayerListEntry> exactMatchEntry = playerList.stream()
+                .filter(playerListEntry -> playerListEntry.getProfile().getId().equals(id))
                 .findFirst();
 
-        if (!optionalPlayerListEntry.isPresent()) {
-            return;
+        // There are various tab list plugins that create fake player entries
+        // that contain the real latency while the real entry has the wrong latency.
+        // TODO: use string similarity instead of equality
+        List<PlayerListEntry> fakeEntries = playerList.stream()
+                .filter(playerListEntry -> {
+                    Text displayName = playerListEntry.getDisplayName();
+                    if (displayName == null) {
+                        return false;
+                    }
+
+                    String displayNameString = collectText(displayName);
+
+                    return displayNameString.equals(playerName);
+                })
+                .toList();
+
+        PlayerListEntry selectedEntry;
+        if (fakeEntries.size() == 1) {
+            selectedEntry = fakeEntries.get(0);
+        } else {
+            if (!exactMatchEntry.isPresent()) {
+                return;
+            }
+
+            selectedEntry = exactMatchEntry.get();
         }
 
-        PlayerListEntry relevantPlayerListEntry = optionalPlayerListEntry.get();
-        int latency = relevantPlayerListEntry.getLatency();
+        int latency = selectedEntry.getLatency();
 
         Text text = args.get(1);
 
@@ -66,5 +92,9 @@ public class PingNametagsRenderMixin {
                 .append(textComponents.getB());
 
         args.set(1, newText);
+    }
+
+    private String collectText(Text text) {
+        return text.asString().concat(String.join("", text.getSiblings().stream().map(this::collectText).toList()));
     }
 }
